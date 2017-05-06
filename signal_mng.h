@@ -1,31 +1,27 @@
 #ifndef __SIGNALMNG_H
 #define __SIGNALMNG_H
 
-#include "header.h"
 #include "share_mem.h"
 
-// Redefined in sem.h
-union semun {
-    int val;
-    struct semid_ds *buf;
-    ushort *array;
-    struct seminfo *__buf;
-};
+#define SEM_MUTEX "MUTEX"
+#define SEM_FULL "FULL"
+#define SEM_EMPTY "EMPTY"
 
+#define MAX_REFUNDS 3
+
+
+
+// Redefined in sem.h
 class SemManager {
 private:
-    union semun mutexTicket;
-    union semun mutexMoney;
-    union semun* full;
-    union semun* empty;
+    HANDLE mutex;
+    HANDLE full[STATION_NUM][STATION_NUM];
+    HANDLE empty[STATION_NUM][STATION_NUM];
 public:
-    void init();
-    int createSemSet();
     void createSem();
     void openSem();
-
-    void P(int sem_set_id,struct sembuf &sem_op,int index);    
-    void V(int sem_set_id,struct sembuf &sem_op,int index);
 };
+void P(HANDLE semHandle);
+void V(HANDLE semHandle);
 
 #endif
