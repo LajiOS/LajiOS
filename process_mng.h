@@ -1,7 +1,7 @@
 #ifndef __PROCESSMNG_H
 #define __PROCESSMNG_H
 
-void startClone(char *);
+HANDLE start(int id,char *szFilename);
 
 void sleep();
 
