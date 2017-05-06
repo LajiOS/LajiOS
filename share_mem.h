@@ -5,15 +5,17 @@
 #define MAX_TICKET 30
 #define USER_NUM 100
 #define SHARE_MEM_NAME "BUFFER"
+#define PWLENGTH 100
+const int ticketLeftBase=0;
+const int refundsCntBase=STATION_NUM*STATION_NUM*sizeof(int);
+const int moneyLeftBase=refundsCntBase+USER_NUM*sizeof(int);
+const int passwordBase=moneyLeftBase+USER_NUM*sizeof(int);
 class ShareMemory {
 public:
     int ticketLeft[STATION_NUM][STATION_NUM];
     int refundsCnt[USER_NUM];
     int moneyLeft[USER_NUM];
-    char password[USER_NUM][100];
-    
-
-    
+    char password[USER_NUM][PWLENGTH];  
 };
 void init(ShareMemory sm);
 void addTicket(ShareMemory sm,int s,int t);

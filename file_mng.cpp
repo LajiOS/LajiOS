@@ -26,6 +26,10 @@ void FileManager::open(char *filename){
     );
     return hFile;
 }
+
+char * getPW(int cos){
+    
+}
 void FileManager::read(int consumer_id) {
 
 }
