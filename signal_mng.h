@@ -9,8 +9,6 @@
 
 #define MAX_REFUNDS 3
 
-
-
 // Redefined in sem.h
 class SemManager {
 private:
@@ -20,6 +18,7 @@ private:
 public:
     void createSem();
     void openSem();
+    void closeSem();
 };
 void P(HANDLE semHandle);
 void V(HANDLE semHandle);

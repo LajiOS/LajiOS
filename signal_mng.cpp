@@ -48,7 +48,7 @@ void SemManager::openSem() {
 
             char seme[100];
             sprintf(seme,"EMPTY%d%d",i,j);
-            empty[i][j]=CreateSemaphore(
+            empty[i][j]=openSemaphore(
                 SEMAPHORE_ALL_ACCESS,
                 FALSE,
                 seme
@@ -57,6 +57,15 @@ void SemManager::openSem() {
     }
 }
 
+void SemManager::closeSem(){
+    CloseHandle(mutex);
+    for(int i=0;i<STATION_NUM;i++){
+        for(int j=0;j<STATION_NUM;j++){
+            CloseHandle(empty[i][j]);
+            CloseHandle(full[i][j]);
+        }
+    }
+}
 void P(HANDLE semHandle) {
     WaitForSingleObject(semHandle, INFINITE);
 }

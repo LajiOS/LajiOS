@@ -3,44 +3,44 @@
 #include<Windows.h>
 #include <iostream>
 
-void ShareMemory::init() {
+void init(ShareMemory sm) {
     for (int i=0;i<STATION_NUM;i++){
         for(int j=0;j<STATION_NUM;j++){
-            ticketLeft[i][j]=rand()%MAX_TICKET;
+            sm.ticketLeft[i][j]=rand()%MAX_TICKET;
         }
     }
-    memset(refundsCnt,0,sizeof(refundsCnt));
+    memset(sm.refundsCnt,0,sizeof(sm.refundsCnt));
     for(int i=0;i<USER_NUM;i++){
-        moneyLeft[i]=1000;
+        sm.moneyLeft[i]=1000;
     }
 }
 
-void ShareMemory::addTicket(int s,int t) {
-    ticketLeft[s][t]++;
+void addTicket(ShareMemory sm,int s,int t) {
+    sm.ticketLeft[s][t]++;
 }
 
-void ShareMemory::buyTicket(int s,int t) {
-    ticketLeft[s][t]--;
+void buyTicket(ShareMemory sm,int s,int t) {
+    sm.ticketLeft[s][t]--;
 }
 
-bool ShareMemory::defuctMoney(int cos,int money){
-    if(moneyLeft[cos]<money){
+bool defuctMoney(ShareMemory sm,int cos,int money){
+    if(sm.moneyLeft[cos]<money){
         std::cout<<"no money"<<endl;
         return false;
     }
     else{
-        moneyLeft[cos]-=money;
+        sm.moneyLeft[cos]-=money;
         return true;
     }
 }
 
-bool ShareMemory::addRefund(int cos){
-    if(refundsCnt[cos]>MAX_REFUNDS){
+bool addRefund(ShareMemory sm,int cos){
+    if(sm.refundsCnt[cos]>MAX_REFUNDS){
         std::cout<<"no more refund ticket"<<endl;
         return false;
     }
     else {
-        refundsCnt[cos]++;
+        sm.refundsCnt[cos]++;
         return true;
     }
 }
@@ -56,6 +56,7 @@ LPVOID ShareMemory::openShareMem() {
 		0,
 		0,
 		0);
+    return pFile;
 }
 
 HANDLE makeShareFile(HANDLE hFile){

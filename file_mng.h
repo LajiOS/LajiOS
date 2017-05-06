@@ -2,12 +2,12 @@
 #define __FILEMNG_H
 
 class FileManager {
-private:
-    char *filename;
 public:
+    HANDLE create(char *filename);
+    HANDLE open(char *filename);
     void init();
-    void readFile(int consumer_id);
-    void writeFile(int consumer_id,int money_change);
+    void read(int consumer_id);
+    void write(int consumer_id,int money_change);
 };
 
 #endif

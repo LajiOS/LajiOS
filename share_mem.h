@@ -10,14 +10,16 @@ public:
     int ticketLeft[STATION_NUM][STATION_NUM];
     int refundsCnt[USER_NUM];
     int moneyLeft[USER_NUM];
-    void init();
+    char password[USER_NUM][100];
+    
 
-    void addTicket(int s,int t);
-    void buyTicket(int s,int t);
-    bool defuctMoney(int cos,int money);
-    bool addRefund(int cos);
-    LPVOID openShareMem();
+    
 };
-
+void init(ShareMemory sm);
+void addTicket(ShareMemory sm,int s,int t);
+void buyTicket(ShareMemory sm,int s,int t);
+bool defuctMoney(ShareMemory sm,int cos,int money);
+bool addRefund(ShareMemory sm,int cos);
+LPVOID openShareMem();
 HANDLE makeShareFile();
 #endif
