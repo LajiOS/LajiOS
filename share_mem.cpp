@@ -12,6 +12,7 @@ void init(ShareMemory sm) {
     memset(sm.refundsCnt,0,sizeof(sm.refundsCnt));
     for(int i=0;i<USER_NUM;i++){
         sm.moneyLeft[i]=1000;
+        sm.prior[i]=rand()%USER_NUM;
     }
 }
 
@@ -19,8 +20,10 @@ void addTicket(ShareMemory sm,int s,int t) {
     sm.ticketLeft[s][t]++;
 }
 
-void buyTicket(ShareMemory sm,int s,int t) {
+void buyTicket(ShareMemory sm,int cos_id,int s,int t) {
     sm.ticketLeft[s][t]--;
+    sm.cosPath[cos_id][0]=s;
+    sm.cosPath[cos_id][1]=t;
 }
 
 bool defuctMoney(ShareMemory sm,int cos,int money){
@@ -34,14 +37,21 @@ bool defuctMoney(ShareMemory sm,int cos,int money){
     }
 }
 
-bool addRefund(ShareMemory sm,int cos){
+bool addRefund(ShareMemory sm,int cos,int s,int t){
     if(sm.refundsCnt[cos]>MAX_REFUNDS){
         std::cout<<"no more refund ticket"<<endl;
         return false;
     }
     else {
-        sm.refundsCnt[cos]++;
-        return true;
+        if(sm.cosPath[cos_id][0]==s&&sm.cosPath[cos_id][1]==t){
+            sm.refundsCnt[cos]++;
+            return true;
+        }
+        else {
+            printf("cannot refund ticket 'cause you never buy it\n");
+            return false;
+        }
+        
     }
 }
 
@@ -68,7 +78,7 @@ HANDLE makeShareFile(HANDLE hFile){
         NULL,
         PAGE_READWRITE,
         0,
-        sizeof(shareMemory),
+        sizeof(ShareMemory),
         SHARE_MEM_NAME);
     if(hMapping!=INVALID_HANDLE_VALUE){
         //在文件上创建视图
@@ -79,7 +89,7 @@ HANDLE makeShareFile(HANDLE hFile){
             0,
             0);
         if(pData!=NULL){
-            ZeroMemory(pData,sizeof(shareMemory));
+            ZeroMemory(pData,sizeof(ShareMemory));
         }
         UnmapViewOfFile(pData);//撤销文件映射对象
     }

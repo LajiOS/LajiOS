@@ -4,6 +4,7 @@
 #include<time.h>
 #include<stdio.h>
 #include<iostream>
+#include<vector>
 using namespace std;
 HANDLE start(int id,char *szFilename)
 {
@@ -45,4 +46,26 @@ void WaitForMutiObjects(HANDLE *hs,int size){
         WaitForSingleObject(hs[i], INFINITE);
         CloseHandle(hs[i]);
     }
+}
+
+void PriorProcessQueue::Process(char *filename){
+	while(pc.size()>0){
+		int index=getFirstCos();
+		PriorCos cos =pc[index];
+		//开始创建子进程
+		start(cos.cos_id,filename);
+		pc.erase(index);
+		sleep();
+	}
+}
+
+int PriorProcessQueue::getFirstCos(){
+	int pmax=-1;
+	int pmaxIndex=0;
+	for(int i=0;i<pc.size();i++){
+		if(pc[i].prior>pmax){
+			pmaxIndex=i;
+			pmax=pc[i].prior;
+		}
+	}
 }
