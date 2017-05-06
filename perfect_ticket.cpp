@@ -15,16 +15,8 @@ int main() {
     HANDLE hMapping=makeShareFile(hFile);
 
     //文件映射到空间并初始化
-    HANDLE hFileMapping = OpenFileMapping(
-		FILE_MAP_ALL_ACCESS,
-		FALSE,
-		SHARE_MEM_NAME);
-	LPVOID pFile=MapViewOfFile(
-		hFileMapping,
-		FILE_MAP_ALL_ACCESS,
-		0,
-		0,
-		0);
+    HANDLE hFileMapping = openShareMem;
+	LPVOID pFile=mapViewShareMem(hFileMapping);
 
     if(pFile!=NULL){
         ShareMemory *sm=(ShareMemory*)pFile;

@@ -45,12 +45,16 @@ bool addRefund(ShareMemory sm,int cos){
     }
 }
 
-LPVOID ShareMemory::openShareMem() {
+HANDLE openShareMem() {
     HANDLE hFileMapping=OpenFileMapping(
 		FILE_MAP_ALL_ACCESS,
 		FALSE,
 		SHARE_MEM_NAME);
-	LPVOID pFile=MapViewOfFile(
+	
+    return hFileMapping;
+}
+LPVOID mapViewShareMem(HANDLE hFileMapping){
+    LPVOID pFile=MapViewOfFile(
 		hFileMapping,
 		FILE_MAP_ALL_ACCESS,
 		0,
@@ -58,7 +62,6 @@ LPVOID ShareMemory::openShareMem() {
 		0);
     return pFile;
 }
-
 HANDLE makeShareFile(HANDLE hFile){
     HANDLE hMapping=CreateFileMapping(
         hFile,//传入文件句柄

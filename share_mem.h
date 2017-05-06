@@ -22,6 +22,7 @@ void addTicket(ShareMemory sm,int s,int t);
 void buyTicket(ShareMemory sm,int s,int t);
 bool defuctMoney(ShareMemory sm,int cos,int money);
 bool addRefund(ShareMemory sm,int cos);
-LPVOID openShareMem();
+HANDLE openShareMem();
+LPVOID mapViewShareMem(HANDLE hFileMapping);
 HANDLE makeShareFile();
 #endif
